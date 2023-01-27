@@ -12,9 +12,14 @@
 
 ## Key Vocab
 
-- **Unit Testing**:
-- **Test-Driven Development**:
-- **Assertion**:
+- **Unit Testing**: a development process where the smallest testable parts of
+  an application are independently tested for proper functionality.
+- **Test-Driven Development**: a development process where tests are written to
+  meet expectations for an application before code is written to meet those
+  expectations.
+- **Assertion**: a statement that determines if a wrapped statement produces a
+  falsy value or exception. In either case, the assertion fails and the
+  execution of code stops.
 
 ***
 
@@ -29,10 +34,10 @@ libraries.
 ## pytest Helps You Write Better Programs
 
 pytest is primarily used for a task called **unit testing**. Unit testing is a
-provess in which the smalled parts of an application- no matter how large- are
-looked at individually and tested to make sure they operate as intended. Testing
-is usually carried out by developers themselves, but sometimes by teams of
-quality assurance (QA) engineers as well.
+provess in which the smallest parts of an application- no matter how large the
+application- are looked at individually and tested to make sure they operate as
+intended. Testing is usually carried out by developers themselves, but sometimes
+by teams of quality assurance (QA) engineers as well.
 
 Unit tests will typically run on many functions at once with many different
 types of input. The number of failures with their descriptions will be returned
@@ -90,6 +95,8 @@ details. We'll see how pytest improves upon this process in just a bit.
 While you've worked with several pytest tests up to this point, you may not
 have dug into the test files themselves. Let's do that now.
 
+### pytest File Structure
+
 The first thing that we need to do to create an application environment that
 supports pytest is include either `pytest.ini` or `setup.py`. pytest generates
 its own paths when it is run, and can often struggle to find the files that you
@@ -103,13 +110,73 @@ clear that it contains test. Ours is contained in `lib/` and is simply called
 `testing/`.
 
 We've put a couple of tests inside of `testing`: `test_string.py` and
-`function_test.py`. pytest files must be named either starting with "test_" or
-ending with "_test". pytest will look in the current directory and every
-subdirectory for any files that match this naming pattern and execute any tests
-within.
+`subdirectory/bool_test.py`. pytest files must be named either starting with
+"test_" or ending with "_test". pytest will look in the current directory and
+every subdirectory for any files that match this naming pattern and execute any
+tests within.
 
-Next up are the tests themselves. (Finally!)
+### pytest Test Structure
+
+The test themselves have to be named fairly strictly: `test_{name}` for
+functions and `Test{Group}` for classes. We'll explain what this means a bit
+more later on in Phase 3- just know that pytest classes contain groups of tests
+and pytest functions are single tests.
+
+***
+
+## Running pytest
+
+pytest can be executed from the command line using the command `pytest`. This
+will run every test in the current directory and any subdirectories, with paths
+to separate files being determined by `pytest.ini`. So long as you execute
+pytest from one of the directories specified there, you shouldn't have any
+issues getting your tests to run.
+
+Let's start off by simply running `pytest`. Enter your virtual environment from
+the project root directory with `pipenv install; pipenv shell` and enter the
+command `pytest`:
+
+```console
+$ pytest
+(python-p3-pytest) python-p3-pytest % pytest
+====== test session starts ======
+platform darwin -- Python 3.8.13, pytest-7.2.1, pluggy-1.0.0
+rootdir: /Users/benbotsford/Documents/new-curriculum/python-fundamentals/python-p3-pytest, configfile: pytest.ini
+collected 3 items
+
+string_functions.py contains a function "return_string()" that returns a variable of type str. .                                 [ 33%]
+string_functions.py contains a function "interpolate_string()" that takes a string and inserts it into another string. .         [ 66%]
+string_functions.py contains a function "return_true" that returns True. F                                                       [100%]
+
+====== FAILURES ======
+______ TestString.test_return_true ______
+
+self = <bool_test.TestString object at 0x102273be0>
+
+    def test_return_true(self):
+        '''contains a function "return_true" that returns True.'''
+>       assert return_true() == True
+E       assert False == True
+E        +  where False = return_true()
+
+lib/testing/subdirectory/bool_test.py:10: AssertionError
+====== short test summary info ======
+FAILED string_functions.py contains a function "return_true" that returns True. - assert False == True
+====== 1 failed, 2 passed in 0.05s ======
+```
+
+There's a lot to parse here! Rather than jumping right into this output, let's
+first figure out how to tailor our output to our needs. We only failed one test,
+after all- how can we run the one that failed?
+
+### Specifying Tests to Run
 
 ***
 
 ## Resources
+
+- [pytest - helps you write better programs](https://docs.pytest.org/en/7.2.x/)
+- [Python's assert: Debug and Test Your Code Like a Pro - RealPython](
+    https://realpython.com/python-assert-statement/#:~:text=in%20your%20code.-,What%20Are%20Assertions%3F,while%20you're%20debugging%20code.)
+- [What is Test-Driven Development? - testdriven.io](
+    https://testdriven.io/test-driven-development/)
