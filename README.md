@@ -138,10 +138,9 @@ command `pytest`:
 
 ```console
 $ pytest
-(python-p3-pytest) python-p3-pytest % pytest
 ====== test session starts ======
 platform darwin -- Python 3.8.13, pytest-7.2.1, pluggy-1.0.0
-rootdir: /Users/benbotsford/Documents/new-curriculum/python-fundamentals/python-p3-pytest, configfile: pytest.ini
+rootdir: python-p3-pytest, configfile: pytest.ini
 collected 3 items
 
 string_functions.py contains a function "return_string()" that returns a variable of type str. .                                 [ 33%]
@@ -170,6 +169,73 @@ first figure out how to tailor our output to our needs. We only failed one test,
 after all- how can we run the one that failed?
 
 ### Specifying Tests to Run
+
+pytest provides a number of different options to specify which tests to run.
+We can run all tests, all tests in a directory, all tests in a file, all tests
+in a class, and only specified tests.
+
+#### Running All Tests
+
+As we saw before, running all tests just requires us to run `pytest` from the
+project root directory. If all tests are in a subdirectory (such as `lib/` or
+`testing/` in this repo), we can also run `pytest` from there.
+
+#### Running All Tests in a Directory
+
+An easier way to run all tests in a directory is to specify the directory after
+the `pytest` command:
+
+```console
+$ pytest lib/testing
+(python-p3-pytest) python-p3-pytest % pytest lib/testing
+====== test session starts ======
+...
+module in bool_functions, function "return_true" returns True. - assert False == True
+====== 1 failed, 2 passed in 0.05s ======
+```
+
+#### Running All Tests in a File
+
+We can see above that only one test is failing: `test_return_true()`. This is
+contained in `bool_test.py`. We can specify to run the tests in this file
+with the same syntax as above, noting that `bool_test.py` is contained in a
+subdirectory of `testing/`: `pytest lib/testing/subdirectory/bool_test.py`.
+
+```console
+$ pytest lib/testing/subdirectory/bool_test.py
+====== test session starts ======
+...
+====== short test summary info ======
+FAILED module in bool_functions, function "return_true" returns True. - assert False == True
+====== 1 failed in 0.04s ======
+```
+
+#### Running One Test in a File
+
+Getting bored of the same syntax? Good news! Navigating the contents of a file
+has nothing to do with Unix directory structure, so we won't be adding any more
+forward slashes `/`.
+
+pytest uses a double colon `::` to navigate from the file itself down to classes
+and functions. Since we don't have any classes in our tests, we can run
+`pytest lib/testing/bool_test.py::test_return_true` to look into this error
+specifically.
+
+```console
+$ pytest lib/testing/subdirectory/bool_test.py::test_return_true
+====== test session starts ======
+...
+====== short test summary info ======
+FAILED module in bool_functions, function "return_true" returns True. - assert False == True
+====== 1 failed in 0.04s ======
+```
+
+Now that we can run the tests that we want, let's start parsing useful
+information out of the results.
+
+***
+
+## Interpreting pytest Output
 
 ***
 

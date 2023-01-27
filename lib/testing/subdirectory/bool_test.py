@@ -2,9 +2,6 @@
 
 from bool_functions import return_true
 
-class TestString:
-    '''string_functions.py'''
-    
-    def test_return_true(self):
-        '''contains a function "return_true" that returns True.'''
-        assert return_true() == True
+def test_return_true():
+    '''in bool_functions, function "return_true" returns True.'''
+    assert return_true() == True
