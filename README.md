@@ -148,9 +148,7 @@ string_functions.py contains a function "interpolate_string()" that takes a stri
 string_functions.py contains a function "return_true" that returns True. F                                                       [100%]
 
 ====== FAILURES ======
-______ TestString.test_return_true ______
-
-self = <bool_test.TestString object at 0x102273be0>
+______ test_return_true ______
 
     def test_return_true(self):
         '''contains a function "return_true" that returns True.'''
@@ -237,11 +235,116 @@ information out of the results.
 
 ## Interpreting pytest Output
 
+Let's go back and look at the _full_ output from the `pytest` command:
+
+```console
+====== test session starts ======
+platform darwin -- Python 3.8.13, pytest-7.2.1, pluggy-1.0.0
+rootdir: python-p3-pytest, configfile: pytest.ini
+collected 3 items
+
+string_functions.py contains a function "return_string()" that returns a variable of type str. .                                 [ 33%]
+string_functions.py contains a function "interpolate_string()" that takes a string and inserts it into another string. .         [ 66%]
+string_functions.py contains a function "return_true" that returns True. F                                                       [100%]
+
+====== FAILURES ======
+______ test_return_true ______
+
+    def test_return_true():
+        '''in bool_functions, function "return_true" returns True.'''
+>       assert return_true() == True
+E       assert False == True
+E        +  where False = return_true()
+
+lib/testing/subdirectory/bool_test.py:7: AssertionError
+
+====== short test summary info ======
+FAILED string_functions.py contains a function "return_true" that returns True. - assert False == True
+====== 1 failed, 2 passed in 0.05s ======
+```
+
+There's a lot to look through here- let's go line by line.
+
+```console
+====== test session starts ======
+platform darwin -- Python 3.8.13, pytest-7.2.1, pluggy-1.0.0
+rootdir: python-p3-pytest, configfile: pytest.ini
+collected 3 items
+```
+
+We begin with a message that the test session has started, with some equals
+signs `=` building a border. This is to help you find the test results if
+you need to scroll back at any point. The next two lines simply describe your
+configuration for your system and pytest- the Python version, the pytest
+version, the root directory, configuration file, and so on. "collected 3 items"
+tells us that pytest has found three tests.
+
+```console
+string_functions.py contains a function "return_string()" that returns a variable of type str. .                                 [ 33%]
+string_functions.py contains a function "interpolate_string()" that takes a string and inserts it into another string. .         [ 66%]
+string_functions.py contains a function "return_true" that returns True. F                                                       [100%]
+```
+
+Next, pytest shows us the progress of testing and whether each test passed or
+failed. `.` after the test description denotes a pass, `F` denotes a failure.
+The percentages in brackets inform us of how far we have progressed in testing-
+this can be useful if certain functions in your application take a long time to
+run.
+
+```console
+====== FAILURES ======
+______ test_return_true ______
+
+    def test_return_true():
+        '''in bool_functions, function "return_true" returns True.'''
+>       assert return_true() == True
+E       assert False == True
+E        +  where False = return_true()
+
+lib/testing/subdirectory/bool_test.py:7: AssertionError
+```
+
+After looking at an overview of the tests, we dig deeper into the failures.
+pytest begins with the name of the test that failed, then shows the code from
+which the error arose. Along the left, look for an arrow (greater than) symbol
+`>`. This shows the specific line of code that produced an error when
+interpreted.
+
+Underneath the line of code that produced the error, we see lines that begin
+with an "E". The first "E" line will show the values of the interpreted line
+of code- here, we can see that `False` is being asserted to equal `True`.
+Naturally, this is cause for an error. The next line will show us where this
+erroneous value came from- `False` is the return value of `return_true()`.
+Finally, pytest provides the path to the line of the error from the location
+the test was run. `lib/testing/subdirectory/bool_test.py` on line 7 produced
+an `AssertionError`.
+
+```console
+====== short test summary info ======
+FAILED string_functions.py contains a function "return_true" that returns True. - assert False == True
+====== 1 failed, 2 passed in 0.05s ======
+```
+
+At the end of every testing session, pytest provides an overview of the
+important takeaways for developers and QA engineers. Inside of this summary,
+the description of the test is included alongside a note that it failed and the
+interpreted code that caused the failure. We then get the number of failures,
+number of passed tests, and the amount of time it took to run all tests.
+
+> **Note: While we won't be looking at the times during our tests, these are
+> going to be important to pay attention to when building larger applications.
+> Slower applications mean fewer users- you don't want that!**
+
+***
+
+## Customizing pytest Output
+
 ***
 
 ## Resources
 
 - [pytest - helps you write better programs](https://docs.pytest.org/en/7.2.x/)
+- [Command-line Flags - pytest](https://docs.pytest.org/en/7.1.x/reference/reference.html#command-line-flags)
 - [Python's assert: Debug and Test Your Code Like a Pro - RealPython](
     https://realpython.com/python-assert-statement/#:~:text=in%20your%20code.-,What%20Are%20Assertions%3F,while%20you're%20debugging%20code.)
 - [What is Test-Driven Development? - testdriven.io](
