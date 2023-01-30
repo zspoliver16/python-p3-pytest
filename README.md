@@ -20,6 +20,8 @@
 - **Assertion**: a statement that determines if a wrapped statement produces a
   falsy value or exception. In either case, the assertion fails and the
   execution of code stops.
+- **Flag**: a method of providing options to modify commands from the command
+  line. Flags begin with a dash `-`.
 
 ***
 
@@ -338,6 +340,71 @@ number of passed tests, and the amount of time it took to run all tests.
 ***
 
 ## Customizing pytest Output
+
+When running commands from the command line, you often have the option to
+include **flags**. Flags are a way to modify your commands- they begin with
+a dash `-`, and they're tailored to each command they're used with. For example,
+`cp` (copy) has a `-r` flag that specifies that the copy operation should be
+recursive- you need to use this to copy a directory and its contents. `tree`
+has a `-L` flag that allows you to specify the depth of subdirectories you
+want to include in its output.
+
+pytest has _many_ flags, but we're just going to focus on the few that will be
+most helpful to you.
+
+- `-x` is pytest's "exit" flag. This executes tests until one fails, then
+  stops executing tests. This is very helpful for test-driven development, as
+  you'll want to focus on developing to one test at a time.
+- `--pdb` opens the Python debugger when a test fails. It does not open the
+  prettier, improved `ipdb`, but its basic functions are very similar.
+- `-s` tells pytest to show the full output for failed tests (i.e. `print()`
+  statements).
+- `-q` (for quiet) shortens pytest's output. Running with the `-q` flag will
+  only show a single line for the summary of the testing session and details
+  of the failures.
+- `-h` will help you figure out where to place arguments for the `pytest`
+  command _and_ provide a long list of flags and configurations for use with
+  pytest.
+
+***
+
+## Instructions
+
+This is a test-driven lab. Run `pytest -x` to execute tests until the first
+fails, then use your new knowledge of pytest and assertions to get all tests
+passing.
+
+When you're done with this first task, write a test in
+`testing/test_not_none.py` to help get the function in `not_none_functions.py`
+to pass.
+
+Submit your work with `git` when all tasks are complete.
+
+***
+
+## Conclusion
+
+You’ve seen that pytest is a valuable tool with the Python labs you’ve been
+working on. Using pytest, we are able to construct tests that help ensure that
+you understand the concepts and can use them successfully. Well-written tests
+also help you understand more clearly what the expectations are for what your
+code will do and how it will function.
+
+But this is not the only reason to learn how to use pytest - it will also be
+valuable to you in your career as a Python software engineer. Testing packages
+like pytest are used for test-driven development (TDD), which is considered to
+be the one of the best processes for writing robust, well-designed, error-free
+code. Because tests focus on the uses of software rather than the details of its
+implementation, TDD leads to increased attention to usability and functionality,
+which in turn results in more stable, usable applications. Finally, having test
+coverage can make it easy to detect bugs that are introduced during the
+development process, as well as bugs in existing code.
+
+Think of this lesson as a reference. You should have an understanding of what
+pytest is and what it does, but you do not need to be a pytest wizard before
+moving on. As you proceed through the curriculum, if you’re ever struggling with
+figuring out a lab, this is a great place to return to help you get the most out
+of pytest.
 
 ***
 
