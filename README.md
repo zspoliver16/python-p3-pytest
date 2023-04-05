@@ -36,7 +36,7 @@ libraries.
 ## pytest Helps You Write Better Programs
 
 pytest is primarily used for a task called **unit testing**. Unit testing is a
-provess in which the smallest parts of an application- no matter how large the
+process in which the smallest parts of an application- no matter how large the
 application- are looked at individually and tested to make sure they operate as
 intended. Testing is usually carried out by developers themselves, but sometimes
 by teams of quality assurance (QA) engineers as well.
